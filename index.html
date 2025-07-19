@@ -2,9 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Clickable Button in Shadow DOM</title>
+  <title>Nested Shadow DOM Button</title>
   <style>
-    hello-button {
+    nested-button {
       display: block;
       margin-top: 20px;
       padding: 10px;
@@ -14,51 +14,74 @@
 </head>
 <body>
 
-  <h2>Shadow DOM Button Example</h2>
-  <hello-button></hello-button>
+  <h2>Nested Shadow DOM Button</h2>
+  <nested-button></nested-button>
 
   <script>
-    class HelloButton extends HTMLElement {
+    // Inner custom element with button and message
+    class InnerButton extends HTMLElement {
       constructor() {
         super();
-
-        // Attach Shadow DOM
         const shadow = this.attachShadow({ mode: 'open' });
 
-        // Create wrapper and message element
         const container = document.createElement('div');
         const button = document.createElement('button');
         const message = document.createElement('p');
 
-        // Button setup
         button.textContent = 'Click Me';
         button.addEventListener('click', () => {
           message.textContent = 'Hello, World!';
         });
 
-        // Scoped styling
         const style = document.createElement('style');
         style.textContent = `
           button {
-            padding: 6px 12px;
             font-size: 16px;
+            padding: 6px 12px;
           }
           p {
             color: green;
-            font-weight: bold;
             margin-top: 10px;
+            font-weight: bold;
           }
         `;
 
-        // Append to shadow root
         container.appendChild(button);
         container.appendChild(message);
         shadow.appendChild(style);
         shadow.appendChild(container);
       }
     }
+    customElements.define('inner-button', InnerButton);
 
-    customElements.define('hello-button', HelloButton);
+    // Outer custom element which inserts inner-button inside its shadow DOM
+    class NestedButton extends HTMLElement {
+      constructor() {
+        super();
+        const outerShadow = this.attachShadow({ mode: 'open' });
+
+        const container = document.createElement('div');
+        const label = document.createElement('h4');
+        label.textContent = 'Outer Shadow DOM Container';
+
+        const innerElement = document.createElement('inner-button');
+
+        const style = document.createElement('style');
+        style.textContent = `
+          div {
+            padding: 10px;
+            background: #f0f0f0;
+            border: 1px solid #ccc;
+          }
+        `;
+
+        container.appendChild(label);
+        container.appendChild(innerElement);
+        outerShadow.appendChild(style);
+        outerShadow.appendChild(container);
+      }
+    }
+    customElements.define('nested-button', NestedButton);
   </script>
 
 </body>
