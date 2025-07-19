@@ -1,21 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nested iframe - Clickable Button</title>
+  <meta charset="UTF-8" />
+  <title>Clickable Button in Shadow DOM</title>
   <style>
-    iframe {
-      width: 320px;
-      height: 200px;
-      border: 2px solid #333;
+    hello-button {
+      display: block;
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #999;
     }
   </style>
 </head>
 <body>
 
-  <h2>Main Page (Outer Frame)</h2>
+  <h2>Shadow DOM Button Example</h2>
+  <hello-button></hello-button>
 
-  <iframe src="middle.html"></iframe>
+  <script>
+    class HelloButton extends HTMLElement {
+      constructor() {
+        super();
+
+        // Attach Shadow DOM
+        const shadow = this.attachShadow({ mode: 'open' });
+
+        // Create wrapper and message element
+        const container = document.createElement('div');
+        const button = document.createElement('button');
+        const message = document.createElement('p');
+
+        // Button setup
+        button.textContent = 'Click Me';
+        button.addEventListener('click', () => {
+          message.textContent = 'Hello, World!';
+        });
+
+        // Scoped styling
+        const style = document.createElement('style');
+        style.textContent = `
+          button {
+            padding: 6px 12px;
+            font-size: 16px;
+          }
+          p {
+            color: green;
+            font-weight: bold;
+            margin-top: 10px;
+          }
+        `;
+
+        // Append to shadow root
+        container.appendChild(button);
+        container.appendChild(message);
+        shadow.appendChild(style);
+        shadow.appendChild(container);
+      }
+    }
+
+    customElements.define('hello-button', HelloButton);
+  </script>
 
 </body>
 </html>
