@@ -2,66 +2,38 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Nested Shadow DOM Checkboxes</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-    #outer-host {
-      border: 2px dashed #888;
-      padding: 10px;
-      margin-top: 20px;
-    }
-  </style>
+  <title>Radio Buttons in Iframe</title>
 </head>
 <body>
-  <h2>User Preferences (Nested Shadow DOM)</h2>
-  <div id="outer-host"></div>
+  <h2>Select your preferred contact method:</h2>
 
-  <script>
-    // Create Outer Shadow DOM
-    const outerHost = document.getElementById('outer-host');
-    const outerShadow = outerHost.attachShadow({ mode: 'open' });
+  <iframe width="400" height="160" style="border: 1px solid #ccc;"
+    srcdoc='
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <style>
+          body {
+            font-family: Arial, sans-serif;
+            padding: 10px;
+          }
+          label {
+            display: block;
+            margin-bottom: 8px;
+          }
+        </style>
+      </head>
+      <body>
+        <form>
+          <label><input type="radio" name="contact" value="email"> Email</label>
+          <label><input type="radio" name="contact" value="phone"> Phone</label>
+          <label><input type="radio" name="contact" value="sms"> SMS</label>
+        </form>
+      </body>
+      </html>
+    '>
+  </iframe>
 
-    // Create container for inner shadow host
-    const innerHost = document.createElement('div');
-    innerHost.setAttribute('id', 'inner-host');
-
-    // Add some outer shadow DOM content
-    outerShadow.innerHTML = `
-      <style>
-        #inner-host {
-          border: 2px solid #aaa;
-          padding: 10px;
-          margin-top: 10px;
-          background: #f9f9f9;
-        }
-      </style>
-      <p>Outer Shadow DOM Loaded</p>
-    `;
-    outerShadow.appendChild(innerHost);
-
-    // Attach Inner Shadow DOM
-    const innerShadow = innerHost.attachShadow({ mode: 'open' });
-
-    // Add form with meaningful checkboxes
-    innerShadow.innerHTML = `
-      <style>
-        form {
-          font-family: Arial, sans-serif;
-        }
-        label {
-          display: block;
-          margin-bottom: 8px;
-        }
-      </style>
-      <form>
-        <strong>Privacy Settings:</strong>
-        <label><input type="checkbox" name="locationTracking"> Allow location tracking</label>
-        <label><input type="checkbox" name="adPersonalization"> Enable ad personalization</label>
-        <label><input type="checkbox" name="dataSharing"> Share usage data with third parties</label>
-      </form>
-    `;
-  </script>
 </body>
 </html>
