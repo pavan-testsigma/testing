@@ -1,51 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<title>Button inside Shadow DOM</title>
-<style>
-  body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <title>Nested Shadow DOM Button</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>Button inside Shadow DOM</h2>
-
-<div id="host"></div>
+<h2>Nested Shadow DOM with Clickable Button</h2>
+<div id="outer-host"></div>
 
 <script>
-  // Create shadow root on host element
-  const host = document.getElementById('host');
-  const shadowRoot = host.attachShadow({ mode: 'open' });
+  // Create outer shadow root
+  const outerHost = document.getElementById('outer-host');
+  const outerShadow = outerHost.attachShadow({ mode: 'open' });
 
-  // Add button and message container inside shadow DOM
-  shadowRoot.innerHTML = `
+  // Outer Shadow DOM content with an inner host
+  outerShadow.innerHTML = `
     <style>
+      .outer-box {
+        border: 2px dashed #007acc;
+        padding: 20px;
+        border-radius: 8px;
+        background: #f0f8ff;
+      }
+    </style>
+    <div class="outer-box">
+      <h3>Outer Shadow DOM</h3>
+      <div id="inner-host"></div>
+    </div>
+  `;
+
+  // Create inner shadow root inside the outer shadow
+  const innerHost = outerShadow.getElementById('inner-host');
+  const innerShadow = innerHost.attachShadow({ mode: 'open' });
+
+  // Inner Shadow DOM content with the button
+  innerShadow.innerHTML = `
+    <style>
+      .inner-box {
+        border: 1px solid #555;
+        padding: 15px;
+        border-radius: 6px;
+        background: #fff;
+      }
       button {
         padding: 10px 20px;
         font-size: 16px;
         cursor: pointer;
+        background-color: #ff4081;
+        color: white;
+        border: none;
+        border-radius: 4px;
       }
-      #message {
-        margin-top: 20px;
-        font-weight: bold;
-        color: crimson;
+      #crazy-message {
+        margin-top: 15px;
         font-size: 18px;
         font-family: 'Comic Sans MS', cursive, sans-serif;
+        color: purple;
       }
     </style>
-    <button id="crazyBtn">Click me!</button>
-    <div id="message"></div>
+    <div class="inner-box">
+      <button id="crazy-btn">Click me for madness</button>
+      <div id="crazy-message"></div>
+    </div>
   `;
 
-  const button = shadowRoot.getElementById('crazyBtn');
-  const message = shadowRoot.getElementById('message');
+  // Add event listener in inner shadow
+  const button = innerShadow.getElementById('crazy-btn');
+  const message = innerShadow.getElementById('crazy-message');
 
   button.addEventListener('click', () => {
-    message.textContent = '🚀✨ Boom! Crazy text unleashed! 💥🌀🤯';
+    message.textContent = '🌪️🦄💥 Crrrrraaaazy SHADOW DOMMMM 💫🔥👾';
   });
 </script>
 
