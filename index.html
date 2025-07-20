@@ -1,59 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Nested Iframe with Radio Buttons</title>
+  <meta charset="UTF-8" />
+  <title>Main Page with Nested Iframes Loaded Dynamically</title>
 </head>
 <body>
-  <h2>Choose your preferred language (nested iframe):</h2>
+  <h2>Main Page</h2>
 
-  <iframe width="500" height="260" style="border: 2px solid #444;" srcdoc='
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          padding: 10px;
-        }
-        h3 {
-          margin-top: 0;
-        }
-      </style>
-    </head>
-    <body>
-      <h3>Inner Frame</h3>
-      <iframe width="450" height="160" style="border: 1px solid #999;" srcdoc="&lt;!DOCTYPE html&gt;
-        &lt;html lang=&quot;en&quot;&gt;
-        &lt;head&gt;
-          &lt;meta charset=&quot;UTF-8&quot;&gt;
-          &lt;style&gt;
-            body {
-              font-family: Arial, sans-serif;
-              padding: 10px;
-            }
-            label {
-              display: block;
-              margin-bottom: 8px;
-            }
-          &lt;/style&gt;
-        &lt;/head&gt;
-        &lt;body&gt;
-          &lt;form&gt;
-            &lt;strong&gt;Preferred Language:&lt;/strong&gt;&lt;br&gt;
-            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;english&quot;&gt; English&lt;/label&gt;
-            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;spanish&quot;&gt; Spanish&lt;/label&gt;
-            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;french&quot;&gt; French&lt;/label&gt;
-            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;german&quot;&gt; German&lt;/label&gt;
-          &lt;/form&gt;
-        &lt;/body&gt;
-        &lt;/html&gt;">
-      </iframe>
-    </body>
-    </html>
-  '>
-  </iframe>
+  <!-- Outer iframe without src -->
+  <iframe
+    id="outer-iframe"
+    width="600"
+    height="300"
+    style="border: 2px solid #333;"
+  ></iframe>
 
+  <script>
+    // Fetch the outer.html content and inject into the outer iframe
+    fetch('outer.html')
+      .then(response => response.text())
+      .then(html => {
+        const iframe = document.getElementById('outer-iframe');
+        const doc = iframe.contentWindow.document;
+        doc.open();
+        doc.write(html);
+        doc.close();
+      });
+  </script>
 </body>
 </html>
