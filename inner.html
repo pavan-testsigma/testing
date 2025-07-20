@@ -1,26 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Inner iframe with Radio Buttons</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 10px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Inner iframe</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  #message {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
-  <form>
-    <strong>Select your preferred mode of contact:</strong><br />
-    <label><input type="radio" name="contact" value="email" /> Email</label>
-    <label><input type="radio" name="contact" value="phone" /> Phone</label>
-    <label><input type="radio" name="contact" value="sms" /> SMS</label>
-    <label><input type="radio" name="contact" value="none" /> No Contact</label>
-  </form>
+<button id="clickable">Click me!</button>
+<p id="message"></p>
+
+<script>
+  const btn = document.getElementById('clickable');
+  const msg = document.getElementById('message');
+  btn.addEventListener('click', () => {
+    msg.textContent = 'Hello';
+  });
+</script>
 </body>
 </html>

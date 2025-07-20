@@ -1,37 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Outer iframe</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 10px;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Outer iframe</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  iframe {
+    border: 1px solid #666;
+    width: 350px;
+    height: 150px;
+  }
+</style>
 </head>
 <body>
-  <h3>Outer iframe</h3>
 
-  <!-- Inner iframe without src -->
-  <iframe
-    id="inner-iframe"
-    width="550"
-    height="180"
-    style="border: 1px solid #666;"
-  ></iframe>
+<iframe id="inner-iframe"></iframe>
 
-  <script>
-    // Fetch inner.html content and inject into inner iframe
-    fetch('inner.html')
-      .then(response => response.text())
-      .then(html => {
-        const iframe = document.getElementById('inner-iframe');
-        const doc = iframe.contentWindow.document;
-        doc.open();
-        doc.write(html);
-        doc.close();
-      });
-  </script>
 </body>
 </html>

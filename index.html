@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Nested Iframes with Button</title>
+<title>Nested Iframes via fetch()</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -15,98 +15,39 @@
 </head>
 <body>
 
-<h2>Nested iframes with Button in Innermost iframe</h2>
+<h2>Nested iframes with Button in innermost iframe (content loaded via fetch)</h2>
 
-<!-- Outer iframe -->
 <iframe id="outer-iframe" width="420" height="220"></iframe>
 
 <script>
-  const outerIframe = document.getElementById('outer-iframe');
-  const outerDoc = outerIframe.contentDocument || outerIframe.contentWindow.document;
+  async function loadIframeContent() {
+    const outerIframe = document.getElementById('outer-iframe');
+    const outerDoc = outerIframe.contentDocument || outerIframe.contentWindow.document;
 
-  // Inner iframe content with the button inside
-  const innerIframeHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <title>Inner iframe</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          margin: 0; padding: 20px;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
-          height: 100vh;
-        }
-        button {
-          padding: 10px 20px;
-          font-size: 16px;
-          cursor: pointer;
-        }
-        #message {
-          margin-top: 20px;
-          font-weight: bold;
-        }
-      </style>
-    </head>
-    <body>
-      <button id="clickable">Click me!</button>
-      <p id="message"></p>
-      <script>
-        const btn = document.getElementById('clickable');
-        const msg = document.getElementById('message');
-        btn.addEventListener('click', () => {
-          msg.textContent = 'Hello';
-        });
-      <\/script>
-    </body>
-    </html>
-  `;
+    // Fetch outer iframe content
+    const outerResp = await fetch('outer.html');
+    const outerHtml = await outerResp.text();
 
-  // Outer iframe content with nested inner iframe (no src)
-  const outerHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <title>Outer iframe</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          margin: 0; padding: 10px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          height: 100vh;
-          box-sizing: border-box;
-        }
-        iframe {
-          border: 1px solid #666;
-          width: 350px;
-          height: 150px;
-        }
-      </style>
-    </head>
-    <body>
-      <iframe id="inner-iframe"></iframe>
-      <script>
-        const innerIframe = document.getElementById('inner-iframe');
-        const doc = innerIframe.contentDocument || innerIframe.contentWindow.document;
-        doc.open();
-        doc.write(\`${innerIframeHTML.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`);
-        doc.close();
-      <\/script>
-    </body>
-    </html>
-  `;
+    outerDoc.open();
+    outerDoc.write(outerHtml);
+    outerDoc.close();
 
-  // Inject outer iframe content
-  outerDoc.open();
-  outerDoc.write(outerHTML);
-  outerDoc.close();
+    // Wait a bit for outer iframe DOM to be ready
+    await new Promise(r => setTimeout(r, 50));
+
+    const innerIframe = outerDoc.getElementById('inner-iframe');
+    const innerDoc = innerIframe.contentDocument || innerIframe.contentWindow.document;
+
+    // Fetch inner iframe content
+    const innerResp = await fetch('inner.html');
+    const innerHtml = await innerResp.text();
+
+    innerDoc.open();
+    innerDoc.write(innerHtml);
+    innerDoc.close();
+  }
+
+  loadIframeContent();
 </script>
 
 </body>
