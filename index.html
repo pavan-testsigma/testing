@@ -2,10 +2,43 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Iframe Example</title>
+  <title>Nested Iframe with Checkboxes</title>
 </head>
 <body>
-  <h1>Embedding Multiple Checkboxes Using Iframe</h1>
-  <iframe src="iframe-content.html" width="400" height="150" style="border: 1px solid #ccc;"></iframe>
+  <h2>Outer Page</h2>
+
+  <iframe width="400" height="250" style="border: 2px solid black;" 
+    srcdoc='
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <title>Inner Iframe</title>
+      </head>
+      <body>
+        <h3>Inner Iframe</h3>
+        <iframe width="300" height="150" style="border: 1px solid gray;" 
+          srcdoc="
+            <!DOCTYPE html>
+            <html lang=&quot;en&quot;>
+            <head>
+              <meta charset=&quot;UTF-8&quot;>
+              <title>Checkboxes</title>
+            </head>
+            <body>
+              <form>
+                <label><input type=&quot;checkbox&quot; name=&quot;option1&quot;> Option 1</label><br>
+                <label><input type=&quot;checkbox&quot; name=&quot;option2&quot;> Option 2</label><br>
+                <label><input type=&quot;checkbox&quot; name=&quot;option3&quot;> Option 3</label>
+              </form>
+            </body>
+            </html>
+          ">
+        </iframe>
+      </body>
+      </html>
+    '>
+  </iframe>
+
 </body>
 </html>
