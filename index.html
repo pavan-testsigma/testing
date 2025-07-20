@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Iframe click example</title>
+<title>Iframe with Clickable Button</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -15,21 +15,57 @@
 </head>
 <body>
 
-<h2>Iframe with Clickable Element</h2>
+<h2>Iframe with Button</h2>
+
 <iframe id="my-iframe" width="400" height="150"></iframe>
 
 <script>
-  async function loadIframeContent() {
-    const iframe = document.getElementById('my-iframe');
-    const response = await fetch('iframe-content.html');
-    const html = await response.text();
-    const doc = iframe.contentDocument || iframe.contentWindow.document;
-    doc.open();
-    doc.write(html);
-    doc.close();
-  }
+  const iframe = document.getElementById('my-iframe');
+  const doc = iframe.contentDocument || iframe.contentWindow.document;
 
-  loadIframeContent();
+  doc.open();
+  doc.write(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Iframe Content</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          height: 100vh;
+          margin: 0;
+        }
+        button {
+          padding: 10px 20px;
+          font-size: 16px;
+          cursor: pointer;
+        }
+        #message {
+          margin-top: 20px;
+          font-weight: bold;
+        }
+      </style>
+    </head>
+    <body>
+      <button id="clickable">Click me!</button>
+      <p id="message"></p>
+
+      <script>
+        const btn = document.getElementById('clickable');
+        const msg = document.getElementById('message');
+        btn.addEventListener('click', () => {
+          msg.textContent = 'Hello';
+        });
+      <\/script>
+    </body>
+    </html>
+  `);
+  doc.close();
 </script>
 
 </body>
