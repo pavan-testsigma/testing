@@ -2,52 +2,51 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Nested Iframes via fetch()</title>
+<title>Button inside Shadow DOM</title>
 <style>
   body {
     font-family: Arial, sans-serif;
     padding: 20px;
   }
-  iframe {
-    border: 1px solid #333;
-  }
 </style>
 </head>
 <body>
 
-<h2>Nested iframes with Button in innermost iframe (content loaded via fetch)</h2>
+<h2>Button inside Shadow DOM</h2>
 
-<iframe id="outer-iframe" width="420" height="220"></iframe>
+<div id="host"></div>
 
 <script>
-  async function loadIframeContent() {
-    const outerIframe = document.getElementById('outer-iframe');
-    const outerDoc = outerIframe.contentDocument || outerIframe.contentWindow.document;
+  // Create shadow root on host element
+  const host = document.getElementById('host');
+  const shadowRoot = host.attachShadow({ mode: 'open' });
 
-    // Fetch outer iframe content
-    const outerResp = await fetch('outer.html');
-    const outerHtml = await outerResp.text();
+  // Add button and message container inside shadow DOM
+  shadowRoot.innerHTML = `
+    <style>
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      #message {
+        margin-top: 20px;
+        font-weight: bold;
+        color: crimson;
+        font-size: 18px;
+        font-family: 'Comic Sans MS', cursive, sans-serif;
+      }
+    </style>
+    <button id="crazyBtn">Click me!</button>
+    <div id="message"></div>
+  `;
 
-    outerDoc.open();
-    outerDoc.write(outerHtml);
-    outerDoc.close();
+  const button = shadowRoot.getElementById('crazyBtn');
+  const message = shadowRoot.getElementById('message');
 
-    // Wait a bit for outer iframe DOM to be ready
-    await new Promise(r => setTimeout(r, 50));
-
-    const innerIframe = outerDoc.getElementById('inner-iframe');
-    const innerDoc = innerIframe.contentDocument || innerIframe.contentWindow.document;
-
-    // Fetch inner iframe content
-    const innerResp = await fetch('inner.html');
-    const innerHtml = await innerResp.text();
-
-    innerDoc.open();
-    innerDoc.write(innerHtml);
-    innerDoc.close();
-  }
-
-  loadIframeContent();
+  button.addEventListener('click', () => {
+    message.textContent = '🚀✨ Boom! Crazy text unleashed! 💥🌀🤯';
+  });
 </script>
 
 </body>
