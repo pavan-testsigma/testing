@@ -2,80 +2,34 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Nested Shadow DOM Radio Buttons</title>
+<title>Iframe click example</title>
 <style>
   body {
     font-family: Arial, sans-serif;
     padding: 20px;
   }
+  iframe {
+    border: 1px solid #333;
+  }
 </style>
 </head>
 <body>
 
-<h2>Nested Shadow DOM Example</h2>
-
-<div id="outer-host"></div>
+<h2>Iframe with Clickable Element</h2>
+<iframe id="my-iframe" width="400" height="150"></iframe>
 
 <script>
-  // Create outer shadow root
-  const outerHost = document.getElementById('outer-host');
-  const outerShadow = outerHost.attachShadow({ mode: 'open' });
+  async function loadIframeContent() {
+    const iframe = document.getElementById('my-iframe');
+    const response = await fetch('iframe-content.html');
+    const html = await response.text();
+    const doc = iframe.contentDocument || iframe.contentWindow.document;
+    doc.open();
+    doc.write(html);
+    doc.close();
+  }
 
-  // Outer shadow content with a container for inner shadow
-  outerShadow.innerHTML = `
-    <style>
-      .outer-container {
-        border: 2px solid #007ACC;
-        padding: 15px;
-        border-radius: 8px;
-        max-width: 350px;
-        background: #e6f0fa;
-      }
-      h3 {
-        margin-top: 0;
-        color: #004a99;
-      }
-    </style>
-    <div class="outer-container">
-      <h3>Outer Shadow DOM</h3>
-      <div id="inner-host"></div>
-    </div>
-  `;
-
-  // Create inner shadow root inside outer shadow DOM
-  const innerHost = outerShadow.getElementById('inner-host');
-  const innerShadow = innerHost.attachShadow({ mode: 'open' });
-
-  // Inner shadow content with radio buttons
-  innerShadow.innerHTML = `
-    <style>
-      fieldset {
-        border: 1px solid #ccc;
-        padding: 15px;
-        border-radius: 6px;
-        background: #fff;
-      }
-      legend {
-        font-weight: bold;
-        margin-bottom: 10px;
-      }
-      label {
-        display: block;
-        margin-bottom: 8px;
-        cursor: pointer;
-      }
-      input[type="radio"] {
-        margin-right: 8px;
-      }
-    </style>
-    <fieldset>
-      <legend>Select your favorite fruit:</legend>
-      <label><input type="radio" name="fruit" value="apple" /> Apple</label>
-      <label><input type="radio" name="fruit" value="banana" /> Banana</label>
-      <label><input type="radio" name="fruit" value="orange" /> Orange</label>
-      <label><input type="radio" name="fruit" value="grape" /> Grape</label>
-    </fieldset>
-  `;
+  loadIframeContent();
 </script>
 
 </body>

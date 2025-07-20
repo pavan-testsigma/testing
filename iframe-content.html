@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Multiple Checkboxes</title>
+<meta charset="UTF-8" />
+<title>Iframe Content</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  #clickable {
+    padding: 10px 20px;
+    background-color: #007ACC;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  #message {
+    margin-top: 20px;
+    font-weight: bold;
+  }
+</style>
 </head>
 <body>
-  <form>
-    <label>
-      <input type="checkbox" name="option1" id="option1">
-      I agree to the terms and conditions
-    </label><br>
+  <button id="clickable">Click me!</button>
+  <p id="message"></p>
 
-    <label>
-      <input type="checkbox" name="option2" id="option2">
-      Subscribe to newsletter
-    </label><br>
-
-    <label>
-      <input type="checkbox" name="option3" id="option3">
-      Enable notifications
-    </label>
-  </form>
+  <script src="iframe-script.js"></script>
 </body>
 </html>
