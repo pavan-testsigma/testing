@@ -2,52 +2,57 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Radio Buttons in Nested Iframe</title>
+  <title>Nested Iframe with Radio Buttons</title>
 </head>
 <body>
-  <h2>Survey: How did you hear about us?</h2>
+  <h2>Choose your preferred language (nested iframe):</h2>
 
-  <iframe width="450" height="250" style="border: 2px solid black;"
-    srcdoc='
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <meta charset="UTF-8">
-        <style>
-          body { font-family: Arial, sans-serif; padding: 10px; }
-        </style>
-      </head>
-      <body>
-        <h3>Inner Frame</h3>
-        <iframe width="400" height="160" style="border: 1px solid gray;"
-          srcdoc="&lt;!DOCTYPE html&gt;
-          &lt;html&gt;
-          &lt;head&gt;
-            &lt;meta charset=&#39;UTF-8&#39;&gt;
-            &lt;style&gt;
-              body {
-                font-family: Arial, sans-serif;
-                padding: 10px;
-              }
-              label {
-                display: block;
-                margin-bottom: 8px;
-              }
-            &lt;/style&gt;
-          &lt;/head&gt;
-          &lt;body&gt;
-            &lt;form&gt;
-              &lt;label&gt;&lt;input type=&#39;radio&#39; name=&#39;referral&#39; value=&#39;social&#39;&gt; Social Media&lt;/label&gt;
-              &lt;label&gt;&lt;input type=&#39;radio&#39; name=&#39;referral&#39; value=&#39;friend&#39;&gt; Friend or Family&lt;/label&gt;
-              &lt;label&gt;&lt;input type=&#39;radio&#39; name=&#39;referral&#39; value=&#39;ads&#39;&gt; Online Ads&lt;/label&gt;
-              &lt;label&gt;&lt;input type=&#39;radio&#39; name=&#39;referral&#39; value=&#39;other&#39;&gt; Other&lt;/label&gt;
-            &lt;/form&gt;
-          &lt;/body&gt;
-          &lt;/html&gt;">
-        </iframe>
-      </body>
-      </html>
-    ">
+  <iframe width="500" height="260" style="border: 2px solid #444;" srcdoc='
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <meta charset="UTF-8">
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          padding: 10px;
+        }
+        h3 {
+          margin-top: 0;
+        }
+      </style>
+    </head>
+    <body>
+      <h3>Inner Frame</h3>
+      <iframe width="450" height="160" style="border: 1px solid #999;" srcdoc="&lt;!DOCTYPE html&gt;
+        &lt;html lang=&quot;en&quot;&gt;
+        &lt;head&gt;
+          &lt;meta charset=&quot;UTF-8&quot;&gt;
+          &lt;style&gt;
+            body {
+              font-family: Arial, sans-serif;
+              padding: 10px;
+            }
+            label {
+              display: block;
+              margin-bottom: 8px;
+            }
+          &lt;/style&gt;
+        &lt;/head&gt;
+        &lt;body&gt;
+          &lt;form&gt;
+            &lt;strong&gt;Preferred Language:&lt;/strong&gt;&lt;br&gt;
+            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;english&quot;&gt; English&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;spanish&quot;&gt; Spanish&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;french&quot;&gt; French&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;radio&quot; name=&quot;language&quot; value=&quot;german&quot;&gt; German&lt;/label&gt;
+          &lt;/form&gt;
+        &lt;/body&gt;
+        &lt;/html&gt;">
+      </iframe>
+    </body>
+    </html>
+  '>
   </iframe>
 
 </body>
