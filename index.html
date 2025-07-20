@@ -2,35 +2,45 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Nested Iframe with Checkboxes</title>
+  <title>Shadow DOM Checkboxes</title>
+  <style>
+    #shadow-host {
+      border: 2px solid #ccc;
+      padding: 10px;
+      margin-top: 20px;
+    }
+
+    h2 {
+      font-family: Arial, sans-serif;
+    }
+  </style>
 </head>
 <body>
-  <h2>Outer Page</h2>
+  <h2>Preferences Panel (inside Shadow DOM)</h2>
+  <div id="shadow-host"></div>
 
-  <iframe width="400" height="250" style="border: 2px solid black;" 
-    srcdoc='
-      <!DOCTYPE html>
-      <html>
-      <head><meta charset="UTF-8"><title>Inner Iframe</title></head>
-      <body>
-        <h3>Inner Iframe</h3>
-        <iframe width="300" height="150" style="border: 1px solid gray;" 
-          srcdoc="&lt;!DOCTYPE html&gt;
-          &lt;html&gt;
-          &lt;head&gt;&lt;meta charset=&#39;UTF-8&#39;&gt;&lt;title&gt;Checkboxes&lt;/title&gt;&lt;/head&gt;
-          &lt;body&gt;
-            &lt;form&gt;
-              &lt;label&gt;&lt;input type=&#39;checkbox&#39; name=&#39;option1&#39;&gt; Option 1&lt;/label&gt;&lt;br&gt;
-              &lt;label&gt;&lt;input type=&#39;checkbox&#39; name=&#39;option2&#39;&gt; Option 2&lt;/label&gt;&lt;br&gt;
-              &lt;label&gt;&lt;input type=&#39;checkbox&#39; name=&#39;option3&#39;&gt; Option 3&lt;/label&gt;
-            &lt;/form&gt;
-          &lt;/body&gt;
-          &lt;/html&gt;">
-        </iframe>
-      </body>
-      </html>
-    '>
-  </iframe>
+  <script>
+    // Attach Shadow DOM
+    const host = document.getElementById('shadow-host');
+    const shadowRoot = host.attachShadow({ mode: 'open' });
 
+    // Inject content into Shadow DOM
+    shadowRoot.innerHTML = `
+      <style>
+        form {
+          font-family: Arial, sans-serif;
+        }
+        label {
+          display: block;
+          margin-bottom: 8px;
+        }
+      </style>
+      <form>
+        <label><input type="checkbox" name="emailAlerts"> Receive email alerts</label>
+        <label><input type="checkbox" name="darkMode"> Enable dark mode</label>
+        <label><input type="checkbox" name="autoUpdates"> Allow automatic updates</label>
+      </form>
+    `;
+  </script>
 </body>
 </html>
