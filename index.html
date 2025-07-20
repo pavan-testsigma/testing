@@ -1,31 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Main Page with Nested Iframes Loaded Dynamically</title>
+<meta charset="UTF-8" />
+<title>Nested Iframes with Radio Buttons — All in One File</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+  }
+</style>
 </head>
 <body>
-  <h2>Main Page</h2>
 
-  <!-- Outer iframe without src -->
-  <iframe
-    id="outer-iframe"
-    width="600"
-    height="300"
-    style="border: 2px solid #333;"
-  ></iframe>
+<h2>Main Page</h2>
 
-  <script>
-    // Fetch the outer.html content and inject into the outer iframe
-    fetch('outer.html')
-      .then(response => response.text())
-      .then(html => {
-        const iframe = document.getElementById('outer-iframe');
-        const doc = iframe.contentWindow.document;
+<!-- Outer iframe without src -->
+<iframe id="outer-iframe" width="600" height="320" style="border: 2px solid #333;"></iframe>
+
+<script>
+  // HTML content for inner iframe (radio buttons)
+  const innerHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Inner iframe with Radio Buttons</title>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 10px; }
+        label { display: block; margin-bottom: 8px; }
+      </style>
+    </head>
+    <body>
+      <form>
+        <strong>Select your preferred mode of contact:</strong><br />
+        <label><input type="radio" name="contact" value="email" /> Email</label>
+        <label><input type="radio" name="contact" value="phone" /> Phone</label>
+        <label><input type="radio" name="contact" value="sms" /> SMS</label>
+        <label><input type="radio" name="contact" value="none" /> No Contact</label>
+      </form>
+    </body>
+    </html>
+  `;
+
+  // HTML content for outer iframe, which will dynamically create inner iframe and inject innerHTML
+  const outerHTML = `
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <title>Outer iframe</title>
+      <style>
+        body { font-family: Arial, sans-serif; padding: 10px; }
+      </style>
+    </head>
+    <body>
+      <h3>Outer iframe</h3>
+      <iframe id="inner-iframe" width="550" height="180" style="border: 1px solid #666;"></iframe>
+
+      <script>
+        const innerIframe = document.getElementById('inner-iframe');
+        const doc = innerIframe.contentWindow.document;
         doc.open();
-        doc.write(html);
+        doc.write(\`${innerHTML.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`);
         doc.close();
-      });
-  </script>
+      <\/script>
+    </body>
+    </html>
+  `;
+
+  // Inject outerHTML into outer iframe
+  const outerIframe = document.getElementById('outer-iframe');
+  const outerDoc = outerIframe.contentWindow.document;
+  outerDoc.open();
+  outerDoc.write(outerHTML);
+  outerDoc.close();
+</script>
+
 </body>
 </html>
