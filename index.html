@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Radio Buttons Inside Shadow DOM</title>
+<title>Nested Shadow DOM Radio Buttons</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -12,43 +12,68 @@
 </head>
 <body>
 
-<h2>Shadow DOM Radio Buttons Example</h2>
+<h2>Nested Shadow DOM Example</h2>
 
-<div id="shadow-host"></div>
+<div id="outer-host"></div>
 
 <script>
-  const host = document.getElementById('shadow-host');
-  const shadow = host.attachShadow({ mode: 'open' });
+  // Create outer shadow root
+  const outerHost = document.getElementById('outer-host');
+  const outerShadow = outerHost.attachShadow({ mode: 'open' });
 
-  shadow.innerHTML = `
+  // Outer shadow content with a container for inner shadow
+  outerShadow.innerHTML = `
+    <style>
+      .outer-container {
+        border: 2px solid #007ACC;
+        padding: 15px;
+        border-radius: 8px;
+        max-width: 350px;
+        background: #e6f0fa;
+      }
+      h3 {
+        margin-top: 0;
+        color: #004a99;
+      }
+    </style>
+    <div class="outer-container">
+      <h3>Outer Shadow DOM</h3>
+      <div id="inner-host"></div>
+    </div>
+  `;
+
+  // Create inner shadow root inside outer shadow DOM
+  const innerHost = outerShadow.getElementById('inner-host');
+  const innerShadow = innerHost.attachShadow({ mode: 'open' });
+
+  // Inner shadow content with radio buttons
+  innerShadow.innerHTML = `
     <style>
       fieldset {
         border: 1px solid #ccc;
         padding: 15px;
         border-radius: 6px;
-        max-width: 320px;
-        background: #f9f9f9;
+        background: #fff;
       }
       legend {
         font-weight: bold;
-        font-size: 1.1em;
         margin-bottom: 10px;
       }
       label {
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         cursor: pointer;
       }
       input[type="radio"] {
-        margin-right: 10px;
+        margin-right: 8px;
       }
     </style>
     <fieldset>
-      <legend>Choose your favorite programming language:</legend>
-      <label><input type="radio" name="language" value="javascript" /> JavaScript</label>
-      <label><input type="radio" name="language" value="python" /> Python</label>
-      <label><input type="radio" name="language" value="java" /> Java</label>
-      <label><input type="radio" name="language" value="csharp" /> C#</label>
+      <legend>Select your favorite fruit:</legend>
+      <label><input type="radio" name="fruit" value="apple" /> Apple</label>
+      <label><input type="radio" name="fruit" value="banana" /> Banana</label>
+      <label><input type="radio" name="fruit" value="orange" /> Orange</label>
+      <label><input type="radio" name="fruit" value="grape" /> Grape</label>
     </fieldset>
   `;
 </script>
