@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Nested Iframes with Radio Buttons — All in One File</title>
+<title>Nested iframes with Shadow DOM radios</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -15,34 +15,69 @@
 <h2>Main Page</h2>
 
 <!-- Outer iframe without src -->
-<iframe id="outer-iframe" width="600" height="320" style="border: 2px solid #333;"></iframe>
+<iframe id="outer-iframe" width="600" height="340" style="border: 2px solid #333;"></iframe>
 
 <script>
-  // HTML content for inner iframe (radio buttons)
+  // Inner iframe content with radio buttons inside shadow DOM
   const innerHTML = `
     <!DOCTYPE html>
     <html lang="en">
     <head>
       <meta charset="UTF-8" />
-      <title>Inner iframe with Radio Buttons</title>
+      <title>Inner iframe with Shadow DOM radios</title>
       <style>
-        body { font-family: Arial, sans-serif; padding: 10px; }
-        label { display: block; margin-bottom: 8px; }
+        body {
+          font-family: Arial, sans-serif;
+          padding: 15px;
+        }
       </style>
     </head>
     <body>
-      <form>
-        <strong>Select your preferred mode of contact:</strong><br />
-        <label><input type="radio" name="contact" value="email" /> Email</label>
-        <label><input type="radio" name="contact" value="phone" /> Phone</label>
-        <label><input type="radio" name="contact" value="sms" /> SMS</label>
-        <label><input type="radio" name="contact" value="none" /> No Contact</label>
-      </form>
+      <h4>Shadow DOM Radio Buttons</h4>
+      <div id="shadow-host"></div>
+
+      <script>
+        const host = document.getElementById('shadow-host');
+        const shadow = host.attachShadow({ mode: 'open' });
+
+        shadow.innerHTML = \`
+          <style>
+            :host {
+              font-family: Arial, sans-serif;
+            }
+            fieldset {
+              border: 1px solid #ccc;
+              padding: 10px 15px;
+              border-radius: 5px;
+              max-width: 300px;
+            }
+            legend {
+              font-weight: bold;
+              margin-bottom: 10px;
+            }
+            label {
+              display: block;
+              margin-bottom: 8px;
+              cursor: pointer;
+            }
+            input[type="radio"] {
+              margin-right: 8px;
+            }
+          </style>
+          <fieldset>
+            <legend>Choose your preferred vacation type:</legend>
+            <label><input type="radio" name="vacation" value="beach"> Beach</label>
+            <label><input type="radio" name="vacation" value="mountains"> Mountains</label>
+            <label><input type="radio" name="vacation" value="city"> City Tour</label>
+            <label><input type="radio" name="vacation" value="cruise"> Cruise</label>
+          </fieldset>
+        \`;
+      <\/script>
     </body>
     </html>
   `;
 
-  // HTML content for outer iframe, which will dynamically create inner iframe and inject innerHTML
+  // Outer iframe content, creates inner iframe and injects innerHTML there
   const outerHTML = `
     <!DOCTYPE html>
     <html lang="en">
@@ -55,7 +90,7 @@
     </head>
     <body>
       <h3>Outer iframe</h3>
-      <iframe id="inner-iframe" width="550" height="180" style="border: 1px solid #666;"></iframe>
+      <iframe id="inner-iframe" width="560" height="200" style="border: 1px solid #666;"></iframe>
 
       <script>
         const innerIframe = document.getElementById('inner-iframe');
