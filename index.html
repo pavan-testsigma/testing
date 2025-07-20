@@ -2,113 +2,55 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>Nested iframes with Shadow DOM radios</title>
+<title>Radio Buttons Inside Shadow DOM</title>
 <style>
   body {
     font-family: Arial, sans-serif;
-    padding: 10px;
+    padding: 20px;
   }
 </style>
 </head>
 <body>
 
-<h2>Main Page</h2>
+<h2>Shadow DOM Radio Buttons Example</h2>
 
-<!-- Outer iframe without src -->
-<iframe id="outer-iframe" width="600" height="340" style="border: 2px solid #333;"></iframe>
+<div id="shadow-host"></div>
 
 <script>
-  // Inner iframe content with radio buttons inside shadow DOM
-  const innerHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <title>Inner iframe with Shadow DOM radios</title>
-      <style>
-        body {
-          font-family: Arial, sans-serif;
-          padding: 15px;
-        }
-      </style>
-    </head>
-    <body>
-      <h4>Shadow DOM Radio Buttons</h4>
-      <div id="shadow-host"></div>
+  const host = document.getElementById('shadow-host');
+  const shadow = host.attachShadow({ mode: 'open' });
 
-      <script>
-        const host = document.getElementById('shadow-host');
-        const shadow = host.attachShadow({ mode: 'open' });
-
-        shadow.innerHTML = \`
-          <style>
-            :host {
-              font-family: Arial, sans-serif;
-            }
-            fieldset {
-              border: 1px solid #ccc;
-              padding: 10px 15px;
-              border-radius: 5px;
-              max-width: 300px;
-            }
-            legend {
-              font-weight: bold;
-              margin-bottom: 10px;
-            }
-            label {
-              display: block;
-              margin-bottom: 8px;
-              cursor: pointer;
-            }
-            input[type="radio"] {
-              margin-right: 8px;
-            }
-          </style>
-          <fieldset>
-            <legend>Choose your preferred vacation type:</legend>
-            <label><input type="radio" name="vacation" value="beach"> Beach</label>
-            <label><input type="radio" name="vacation" value="mountains"> Mountains</label>
-            <label><input type="radio" name="vacation" value="city"> City Tour</label>
-            <label><input type="radio" name="vacation" value="cruise"> Cruise</label>
-          </fieldset>
-        \`;
-      <\/script>
-    </body>
-    </html>
+  shadow.innerHTML = `
+    <style>
+      fieldset {
+        border: 1px solid #ccc;
+        padding: 15px;
+        border-radius: 6px;
+        max-width: 320px;
+        background: #f9f9f9;
+      }
+      legend {
+        font-weight: bold;
+        font-size: 1.1em;
+        margin-bottom: 10px;
+      }
+      label {
+        display: block;
+        margin-bottom: 10px;
+        cursor: pointer;
+      }
+      input[type="radio"] {
+        margin-right: 10px;
+      }
+    </style>
+    <fieldset>
+      <legend>Choose your favorite programming language:</legend>
+      <label><input type="radio" name="language" value="javascript" /> JavaScript</label>
+      <label><input type="radio" name="language" value="python" /> Python</label>
+      <label><input type="radio" name="language" value="java" /> Java</label>
+      <label><input type="radio" name="language" value="csharp" /> C#</label>
+    </fieldset>
   `;
-
-  // Outer iframe content, creates inner iframe and injects innerHTML there
-  const outerHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <title>Outer iframe</title>
-      <style>
-        body { font-family: Arial, sans-serif; padding: 10px; }
-      </style>
-    </head>
-    <body>
-      <h3>Outer iframe</h3>
-      <iframe id="inner-iframe" width="560" height="200" style="border: 1px solid #666;"></iframe>
-
-      <script>
-        const innerIframe = document.getElementById('inner-iframe');
-        const doc = innerIframe.contentWindow.document;
-        doc.open();
-        doc.write(\`${innerHTML.replace(/`/g, '\\`').replace(/\$/g, '\\$')}\`);
-        doc.close();
-      <\/script>
-    </body>
-    </html>
-  `;
-
-  // Inject outerHTML into outer iframe
-  const outerIframe = document.getElementById('outer-iframe');
-  const outerDoc = outerIframe.contentWindow.document;
-  outerDoc.open();
-  outerDoc.write(outerHTML);
-  outerDoc.close();
 </script>
 
 </body>
